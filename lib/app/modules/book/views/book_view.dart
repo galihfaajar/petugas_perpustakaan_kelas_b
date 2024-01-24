@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../../../routes/app_pages.dart';
 import '../controllers/book_controller.dart';
 
@@ -19,12 +17,18 @@ class BookView extends GetView<BookController> {
         onPressed: () => Get.toNamed(Routes.ADD_BOOK),
         child: Icon(Icons.add),
       ),
-      body: const Center(
-        child: Text(
-          'BookView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body:controller.obx((state) => ListView.separated(
+        itemCount: state!.length,
+        itemBuilder: (context, index){
+          return ListTile(
+            title: Text("${state[index].judul}"),
+            subtitle: Text("Penulis ${state[index].penulis}"),
+          );
+        },
+        separatorBuilder: (context, index){
+          return Divider();
+        },
+      ))
     );
   }
 }

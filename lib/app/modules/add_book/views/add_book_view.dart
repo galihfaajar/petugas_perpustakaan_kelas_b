@@ -13,10 +13,65 @@ class AddBookView extends GetView<AddBookController> {
         title: const Text('AddBookView'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'AddBookView is working',
-          style: TextStyle(fontSize: 20),
+      body: Center(
+        child: Form(
+          key: controller.formkey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller:controller.judulController,
+                decoration: InputDecoration(hintText: "Masukkan Judul"),
+                validator: (value){
+                  if (value!.length <0){
+                    return "Judul tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller:controller.penulisController,
+                decoration: InputDecoration(hintText: "Masukkan Penulis"),
+                validator: (value){
+                  if (value!.isEmpty){
+                    return "Penulis tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller:controller.penerbitController,
+                decoration: InputDecoration(hintText: "Masukkan Penerbit"),
+                validator: (value){
+                  if (value!.isEmpty){
+                    return "Penerbit tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller:controller.tahunTerbitController,
+                decoration: InputDecoration(hintText: "Masukkan Tahun Terbit"),
+                validator: (value){
+                  if (value!.isEmpty){
+                    return "Tahun Terbit tidak boleh kosong";
+                  }
+                  return null;
+                },
+              ),
+              Obx(() => controller.loading.value?
+              CircularProgressIndicator():
+              ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.red),
+                      foregroundColor: MaterialStateProperty.all(Colors.white),
+                      padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 20,horizontal: 35))
+                  ),
+                  onPressed: (){
+                controller.post();
+              }, child: Text("Tambah"))
+              )
+            ],
+          ),
         ),
       ),
     );
